@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${data.name} + ' | Portfolio'">Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header>
+        <div class="logo" th:text="${data.name}">Name</div>
+        <nav>
+            <ul>
+                <li><a href="#about">👋 About</a></li>
+                <li><a href="#skills">🛠️ Skills</a></li>
+                <li><a href="#experience">💼 Experience</a></li>
+                <li><a href="#projects">🚀 Projects</a></li>
+                <li><a href="#education">🎓 Education</a></li>
+                <li><a href="#contact">✉️ Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero / About Section -->
+        <section id="about" class="hero" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 3rem;">
+            <div class="hero-content" style="flex: 1 1 500px;">
+                <h1>Hello, I'm <br><span th:text="${data.name}">Name</span></h1>
+                <p th:text="${data.objective}">Objective here</p>
+                <div class="hero-buttons" style="flex-wrap: wrap;">
+                    <a th:href="@{/Sinchana_G_S_Resume_CV.pdf}" target="_blank" class="btn btn-primary pulse-btn">📄 View/Download Resume (PDF)</a>
+                    <a href="#projects" class="btn btn-secondary">View My Work</a>
+                    <a th:href="'mailto:' + ${data.email}" class="btn btn-secondary">Contact Me</a>
+                </div>
+                
+                <div style="margin-top: 2rem; color: var(--text-muted);">
+                    <span th:text="${data.location}">Location</span> | 
+                    <span th:text="${data.phone}">Phone</span> | 
+                    <a th:href="'mailto:' + ${data.email}" th:text="${data.email}">Email</a>
+                </div>
+            </div>
+            <div class="hero-image" style="flex: 1 1 300px; display: flex; justify-content: center;">
+                <img th:src="@{/images/Profile.jpg}" alt="Profile Picture" class="profile-img">
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2>🛠️ Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category" th:each="entry : ${data.skills}">
+                    <h3 th:text="${entry.key}">Category</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag" th:each="skill : ${#strings.arraySplit(entry.value, ',')}" th:text="${#strings.trim(skill)}">Skill</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <h2>💼 Experience</h2>
+            <div class="grid">
+                <div class="card" th:each="exp : ${data.experiences}">
+                    <h3 class="card-title" th:text="${exp.role}">Role</h3>
+                    <div class="card-subtitle">
+                        <strong th:text="${exp.company}">Company</strong> | <span th:text="${exp.duration}">Duration</span>
+                    </div>
+                    <p th:text="${exp.description}">Description</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>🚀 Featured Projects</h2>
+            <div class="grid">
+                <div class="card" th:each="proj : ${data.projects}">
+                    <h3 class="card-title" th:text="${proj.title}">Project Title</h3>
+                    <div class="card-subtitle" th:text="${proj.year}">Year</div>
+                    <p th:text="${proj.description}">Description</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education">
+            <h2>🎓 Education</h2>
+            <div class="grid">
+                <div class="card" th:each="edu : ${data.educationList}">
+                    <h3 class="card-title" th:text="${edu.degree}">Degree</h3>
+                    <div class="card-subtitle">
+                        <strong th:text="${edu.institution}">Institution</strong> | <span th:text="${edu.year}">Year</span>
+                    </div>
+                    <p style="color: var(--accent-color); font-weight: 600;">Score: <span th:text="${edu.score}">Score</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+            <div style="flex: 1 1 300px;">
+                <h2>🏆 Certifications</h2>
+                <div th:each="cert : ${data.certifications}" class="list-item" th:text="${cert}">Certification</div>
+            </div>
+            <div style="flex: 1 1 300px;">
+                <h2>📝 Publications</h2>
+                <div th:each="pub : ${data.publications}" class="list-item" th:text="${pub}">Publication</div>
+            </div>
+            <div style="flex: 1 1 300px;">
+                <h2>⭐ Extra-Curriculars</h2>
+                <div th:each="act : ${data.extracurriculars}" class="list-item" th:text="${act}">Extra-Curricular Activity</div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" style="background: var(--bg-color-alt); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+            <h2>✉️ Get In Touch</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Have a question or want to work together? Send me a message!</p>
+            <form action="mailto:sinchugs5@gmail.com" method="post" enctype="text/plain" class="contact-form" style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                <input type="text" name="name" placeholder="Your Name" required class="form-input">
+                <input type="email" name="email" placeholder="Your Email" required class="form-input">
+                <textarea name="message" rows="5" placeholder="Write your message here..." required class="form-input"></textarea>
+                <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 10px;">Send Message 🚀</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> <span th:text="${data.name}"></span>. Built with Java Spring Boot.</p>
+    </footer>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
