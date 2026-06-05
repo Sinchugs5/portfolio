@@ -25,3 +25,7 @@ yarn-error.log*
 # maven build output
 target/
 
+# static site build output
+dist/
+
+
